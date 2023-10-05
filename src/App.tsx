@@ -1,4 +1,4 @@
-const App = (props: Props) => {
+const App = () => {
   return <div>App</div>;
 };
 
