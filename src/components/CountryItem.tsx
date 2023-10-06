@@ -1,10 +1,17 @@
 import styles from "./CountryItem.module.css";
 
-function CountryItem({ country }) {
+type Props = {
+  country: {
+    emoji: string;
+    country: string;
+  };
+};
+
+function CountryItem({ country: { country, emoji } }: Props) {
   return (
     <li className={styles.countryItem}>
-      <span>{country.emoji}</span>
-      <span>{country.country}</span>
+      <span>{emoji}</span>
+      <span>{country}</span>
     </li>
   );
 }
