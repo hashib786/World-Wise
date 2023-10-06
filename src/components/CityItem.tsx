@@ -10,7 +10,6 @@ const formatDate = (date: string) =>
     day: "numeric",
     month: "long",
     year: "numeric",
-    weekday: "long",
   }).format(new Date(date));
 
 const CityItem = ({ city }: Props) => {
