@@ -26,9 +26,9 @@ export type CityContextType = {
   isLoading: boolean;
 };
 
-export const CitiesContext = createContext<CityContextType | null>(null);
+const CitiesContext = createContext<CityContextType | null>(null);
 
-export const CitiesProvider = ({ children }: { children: ReactNode }) => {
+const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [cities, setCities] = useState<CityI[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,8 +54,14 @@ export const CitiesProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useCities = () => {
+const useCities = () => {
   const value = useContext(CitiesContext);
-  if (!value) throw new Error("Cities Provider is not Provider this component");
+  if (value === undefined)
+    throw new Error("Cities Provider is not Provider this component");
+  if (!value) return { cities: [], isLoading: false };
   return value;
 };
+
+export default CitiesContext;
+// eslint-disable-next-line react-refresh/only-export-components
+export { CitiesProvider, useCities, BASE_URL };
