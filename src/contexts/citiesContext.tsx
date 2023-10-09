@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 const BASE_URL = `http://localhost:8000`;
 
@@ -46,4 +52,10 @@ export const CitiesProvider = ({ children }: { children: ReactNode }) => {
       {children};
     </CitiesContext.Provider>
   );
+};
+
+export const useCities = () => {
+  const value = useContext(CitiesContext);
+  if (!value) throw new Error("Cities Provider is not Provider this component");
+  return value;
 };
