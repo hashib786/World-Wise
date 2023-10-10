@@ -1,12 +1,18 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCities } from "../contexts/citiesContext";
 import styles from "./Map.module.css";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  Marker,
+  Popup,
+  TileLayer,
+  useMap,
+  useMapEvents,
+} from "react-leaflet";
 import { useEffect, useState } from "react";
 import { LatLngExpression } from "leaflet";
 
 const Map = () => {
-  // const navigate = useNavigate();
   const [mapPosition, setMapPosition] = useState<LatLngExpression>([
     24.0627, 82.6248,
   ]);
@@ -16,7 +22,6 @@ const Map = () => {
   const { cities } = useCities();
 
   useEffect(() => {
-    console.log(lat, lng);
     if (lat && lng) setMapPosition([+lat, +lng]);
   }, [lat, lng]);
 
@@ -44,6 +49,7 @@ const Map = () => {
           </Marker>
         ))}
         <ChangeMapPosition position={mapPosition} />
+        <DetectClick />
       </MapContainer>
     </div>
   );
@@ -54,6 +60,16 @@ function ChangeMapPosition({ position }: { position: LatLngExpression }) {
   if (map) {
     map.setView(position); // Set the view if the map instance exists
   }
+
+  return null;
+}
+
+function DetectClick() {
+  const navigate = useNavigate();
+
+  useMapEvents({
+    click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
+  });
 
   return null;
 }
