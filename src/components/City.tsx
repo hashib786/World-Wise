@@ -5,6 +5,7 @@ import { formatDate } from "./CityItem";
 import { useEffect } from "react";
 import { useCities } from "../contexts/citiesContext";
 import Spinner from "./Spinner";
+import BackButton from "./BackButton";
 
 function City() {
   const { id } = useParams();
@@ -53,7 +54,9 @@ function City() {
         </a>
       </div>
 
-      <div>{/* <ButtonBack /> */}</div>
+      <div>
+        <BackButton />
+      </div>
     </div>
   );
 }
