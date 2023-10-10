@@ -38,9 +38,11 @@ const Map = () => {
 
   return (
     <div className={styles.mapContainer}>
-      <Button type="position" onClick={getPosition}>
-        {isLoadingGettingPos ? "Loading..." : "Use Your Position"}
-      </Button>
+      {!position && (
+        <Button type="position" onClick={getPosition}>
+          {isLoadingGettingPos ? "Loading..." : "Use Your Position"}
+        </Button>
+      )}
       <MapContainer
         className={styles.map}
         center={mapPosition}
