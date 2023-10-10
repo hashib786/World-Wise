@@ -1,5 +1,6 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
-
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 import { useEffect, useState } from "react";
 
 import styles from "./Form.module.css";
@@ -8,6 +9,7 @@ import BackButton from "./BackButton";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import Spinner from "./Spinner";
 import Message from "./Message";
+import DatePicker from "react-date-picker";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function convertToEmoji(countryCode: string) {
@@ -20,11 +22,15 @@ export function convertToEmoji(countryCode: string) {
 
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
+
 function Form() {
   const [cityName, setCityName] = useState("");
   const [country, setCountry] = useState("");
   const [emoji, setEmoji] = useState("");
-  const [date, setDate] = useState<Date | string>(new Date());
+  const [date, setDate] = useState<Value>(new Date(Date.now()));
   const [notes, setNotes] = useState("");
   const [lat, lng] = useUrlPosition();
   const [isGeoFetching, setIsGeoFetching] = useState(false);
@@ -33,6 +39,7 @@ function Form() {
 
   useEffect(() => {
     (async () => {
+      if (!lat && !lng) return;
       try {
         setIsGeoFetching(true);
         setError("");
@@ -54,6 +61,8 @@ function Form() {
   }, [lat, lng]);
 
   if (isGeoFetching) return <Spinner />;
+  if (!lat || !lng)
+    return <Message message="please add some city so click any where in app" />;
   if (error) return <Message message={error} />;
 
   return (
@@ -70,11 +79,7 @@ function Form() {
 
       <div className={styles.row}>
         <label htmlFor="date">When did you go to {cityName}?</label>
-        <input
-          id="date"
-          onChange={(e) => setDate(e.target.value)}
-          value={date.toLocaleString()}
-        />
+        <DatePicker format="dd-MM-y" value={date} onChange={setDate} />
       </div>
 
       <div className={styles.row}>
