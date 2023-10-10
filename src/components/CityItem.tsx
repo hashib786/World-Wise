@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
-import { CityI } from "../App";
 import styles from "./CityItem.module.css";
+import { CityI } from "../contexts/citiesContext";
 
 type Props = {
   city: CityI;
 };
 
-const formatDate = (date: string) =>
+// eslint-disable-next-line react-refresh/only-export-components
+export const formatDate = (date: string) =>
   new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",

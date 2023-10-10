@@ -24,6 +24,8 @@ export interface CityI {
 export type CityContextType = {
   cities: CityI[];
   isLoading: boolean;
+  currentCity: CityI | null;
+  getCity: (id: number) => void;
 };
 
 const CitiesContext = createContext<CityContextType | null>(null);
@@ -31,6 +33,7 @@ const CitiesContext = createContext<CityContextType | null>(null);
 const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [cities, setCities] = useState<CityI[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState<CityI | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -47,8 +50,21 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, []);
 
+  async function getCity(id: number) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities/${id}`);
+      const data = await res.json();
+      setCurrentCity(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <CitiesContext.Provider value={{ cities, isLoading }}>
+    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>
       {children};
     </CitiesContext.Provider>
   );
@@ -58,7 +74,13 @@ const useCities = () => {
   const value = useContext(CitiesContext);
   if (value === undefined)
     throw new Error("Cities Provider is not Provider this component");
-  if (!value) return { cities: [], isLoading: false };
+  if (!value)
+    return {
+      cities: [],
+      isLoading: false,
+      currentCity: null,
+      getCity: () => {},
+    };
   return value;
 };
 
