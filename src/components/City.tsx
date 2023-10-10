@@ -13,14 +13,9 @@ function City() {
   useEffect(() => {
     if (!id) return;
     getCity(+id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  // const currentCity = {
-  //   cityName: "Lisbon",
-  //   emoji: "🇵🇹",
-  //   date: "2027-10-31T15:59:59.138Z",
-  //   notes: "My favorite city so far!",
-  // };
   if (isLoading) return <Spinner />;
   if (!currentCity) return <p>Error</p>;
 
