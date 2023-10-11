@@ -30,7 +30,20 @@ export type CityContextType = {
   deleteCity: (id: number) => Promise<void>;
 };
 
-const CitiesContext = createContext<CityContextType | null>(null);
+const CitiesContext = createContext<CityContextType>({
+  cities: [],
+  isLoading: false,
+  currentCity: null,
+  getCity: function (): void {
+    throw new Error("Function not implemented.");
+  },
+  createCity: function (): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+  deleteCity: function (): Promise<void> {
+    throw new Error("Function not implemented.");
+  },
+});
 
 const CitiesProvider = ({ children }: { children: ReactNode }) => {
   const [cities, setCities] = useState<CityI[]>([]);
