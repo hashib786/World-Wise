@@ -60,10 +60,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 
   const login = (user: string, password: string) => {
-    console.log(user, password);
+    if (user === FAKE_USER.email && password === FAKE_USER.password) {
+      dispatch({ type: "login", payload: FAKE_USER });
+    }
   };
 
-  const logout = () => {};
+  const logout = () => {
+    dispatch({ type: "logout" });
+  };
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
