@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useReducer } from "react";
+import { ReactNode, createContext, useContext, useReducer } from "react";
 
 interface UserI {
   name: string;
@@ -74,4 +74,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
+  const value = useContext(AuthContext);
+  if (value === undefined)
+    throw new Error("This component is out of provided AuthProvider");
+  return value;
 };
