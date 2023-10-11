@@ -15,6 +15,7 @@ export const formatDate = (date: string) =>
   }).format(new Date(date));
 
 const CityItem = ({ city }: Props) => {
+  const { deleteCity } = useCities();
   const { currentCity } = useCities();
   const {
     emoji,
@@ -23,6 +24,12 @@ const CityItem = ({ city }: Props) => {
     id,
     position: { lat, lng },
   } = city;
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (!id) return;
+    e.preventDefault();
+    deleteCity(id);
+  };
 
   return (
     <li>
@@ -35,7 +42,9 @@ const CityItem = ({ city }: Props) => {
         <span className={styles.emoji}>{emoji}</span>
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>({formatDate(date)})</time>
-        <button className={styles.deleteBtn}>&times;</button>
+        <button className={styles.deleteBtn} onClick={handleClick}>
+          &times;
+        </button>
       </Link>
     </li>
   );

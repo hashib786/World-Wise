@@ -27,6 +27,7 @@ export type CityContextType = {
   currentCity: CityI | null;
   getCity: (id: number) => void;
   createCity: (newCity: CityI) => Promise<void>;
+  deleteCity: (id: number) => Promise<void>;
 };
 
 const CitiesContext = createContext<CityContextType | null>(null);
@@ -83,9 +84,31 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  async function deleteCity(id: number) {
+    try {
+      setIsLoading(true);
+      await fetch(`${BASE_URL}/cities/${id}`, {
+        method: "DELETE",
+      });
+
+      setCities((prev) => prev.filter((ele) => ele.id !== id));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
-      value={{ cities, isLoading, currentCity, getCity, createCity }}
+      value={{
+        cities,
+        isLoading,
+        currentCity,
+        getCity,
+        createCity,
+        deleteCity,
+      }}
     >
       {children};
     </CitiesContext.Provider>
@@ -103,6 +126,7 @@ const useCities = () => {
       currentCity: null,
       getCity: () => {},
       createCity: () => {},
+      deleteCity: () => {},
     };
   return value;
 };
