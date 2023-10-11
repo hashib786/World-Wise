@@ -10,7 +10,7 @@ interface UserI {
 interface authI {
   user: UserI | null;
   isAuthenticated: boolean;
-  login: (user: string, password: string) => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
 }
 
@@ -48,6 +48,8 @@ const reducer = (state: intialStateI, action: ActionType): intialStateI => {
   switch (type) {
     case "login":
       return { ...state, isAuthenticated: true, user: action.payload };
+    case "logout":
+      return { ...state, isAuthenticated: false, user: null };
     default:
       return state;
   }
@@ -59,8 +61,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     intialState
   );
 
-  const login = (user: string, password: string) => {
-    if (user === FAKE_USER.email && password === FAKE_USER.password) {
+  const login = (email: string, password: string) => {
+    if (email === FAKE_USER.email && password === FAKE_USER.password) {
       dispatch({ type: "login", payload: FAKE_USER });
     }
   };
