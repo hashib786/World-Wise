@@ -77,6 +77,7 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
       });
       const data = await res.json();
       setCities((prev) => [...prev, data]);
+      setCurrentCity(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -92,6 +93,7 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
       });
 
       setCities((prev) => prev.filter((ele) => ele.id !== id));
+      setCurrentCity(null);
     } catch (error) {
       console.log(error);
     } finally {
