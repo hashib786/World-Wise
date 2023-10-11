@@ -134,15 +134,6 @@ const useCities = () => {
   const value = useContext(CitiesContext);
   if (value === undefined)
     throw new Error("Cities Provider is not Provider this component");
-  if (!value)
-    return {
-      cities: [],
-      isLoading: false,
-      currentCity: null,
-      getCity: () => {},
-      createCity: () => {},
-      deleteCity: () => {},
-    };
   return value;
 };
 
