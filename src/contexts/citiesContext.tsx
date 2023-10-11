@@ -26,7 +26,7 @@ export type CityContextType = {
   isLoading: boolean;
   currentCity: CityI | null;
   getCity: (id: number) => void;
-  createCity: (newCity: CityI) => void;
+  createCity: (newCity: CityI) => Promise<void>;
 };
 
 const CitiesContext = createContext<CityContextType | null>(null);

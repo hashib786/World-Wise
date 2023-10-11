@@ -47,6 +47,18 @@
         "lng": -9.1474600038812
       },
       "id": 98443198
+    },
+    {
+      "cityName": "Singrauli",
+      "country": "India",
+      "date": "Thu Sep 28 2023 00:00:00 GMT+0530 (India Standard Time)",
+      "emoji": "🇮🇳",
+      "notes": "fsdsfgfgsf",
+      "position": {
+        "lat": 24.06477246050406,
+        "lng": 82.62682124655807
+      },
+      "id": 98443199
     }
   ]
 }

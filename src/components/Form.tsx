@@ -11,6 +11,7 @@ import Spinner from "./Spinner";
 import Message from "./Message";
 import DatePicker from "react-date-picker";
 import { CityI, useCities } from "../contexts/citiesContext";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function convertToEmoji(countryCode: string) {
@@ -37,8 +38,9 @@ function Form() {
   const [isGeoFetching, setIsGeoFetching] = useState(false);
   const [error, setError] = useState("");
   const { createCity, isLoading } = useCities();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!lat || !lng || !country || !date) return;
     const newCountry: CityI = {
@@ -49,7 +51,8 @@ function Form() {
       notes,
       position: { lat: +lat, lng: +lng },
     };
-    createCity(newCountry);
+    await createCity(newCountry);
+    navigate("/app/cities");
   };
 
   useEffect(() => {
