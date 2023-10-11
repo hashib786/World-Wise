@@ -35,6 +35,18 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
+    },
+    {
+      "cityName": "Lisbon",
+      "country": "Portugal",
+      "date": "Wed Oct 11 2023 06:54:52 GMT+0530 (India Standard Time)",
+      "emoji": "🇵🇹",
+      "notes": "fgsdgsdf",
+      "position": {
+        "lat": 38.75715353651016,
+        "lng": -9.1474600038812
+      },
+      "id": 98443198
     }
   ]
 }

@@ -10,6 +10,7 @@ import { useUrlPosition } from "../hooks/useUrlPosition";
 import Spinner from "./Spinner";
 import Message from "./Message";
 import DatePicker from "react-date-picker";
+import { CityI, useCities } from "../contexts/citiesContext";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function convertToEmoji(countryCode: string) {
@@ -35,7 +36,21 @@ function Form() {
   const [lat, lng] = useUrlPosition();
   const [isGeoFetching, setIsGeoFetching] = useState(false);
   const [error, setError] = useState("");
-  console.log(country);
+  const { createCity, isLoading } = useCities();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!lat || !lng || !country || !date) return;
+    const newCountry: CityI = {
+      cityName,
+      country,
+      date: date?.toString(),
+      emoji,
+      notes,
+      position: { lat: +lat, lng: +lng },
+    };
+    createCity(newCountry);
+  };
 
   useEffect(() => {
     (async () => {
@@ -66,7 +81,10 @@ function Form() {
   if (error) return <Message message={error} />;
 
   return (
-    <form className={styles.form}>
+    <form
+      className={`${styles.form} ${isLoading ? "loading" : ""}`}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
         <input

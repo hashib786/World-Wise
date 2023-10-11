@@ -18,7 +18,7 @@ export interface CityI {
     lat: number;
     lng: number;
   };
-  id: number;
+  id?: number;
 }
 
 export type CityContextType = {
@@ -26,6 +26,7 @@ export type CityContextType = {
   isLoading: boolean;
   currentCity: CityI | null;
   getCity: (id: number) => void;
+  createCity: (newCity: CityI) => void;
 };
 
 const CitiesContext = createContext<CityContextType | null>(null);
@@ -63,8 +64,29 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  async function createCity(newCity: CityI) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities`, {
+        method: "POST",
+        body: JSON.stringify(newCity),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      setCities((prev) => [...prev, data]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
-    <CitiesContext.Provider value={{ cities, isLoading, currentCity, getCity }}>
+    <CitiesContext.Provider
+      value={{ cities, isLoading, currentCity, getCity, createCity }}
+    >
       {children};
     </CitiesContext.Provider>
   );
@@ -80,6 +102,7 @@ const useCities = () => {
       isLoading: false,
       currentCity: null,
       getCity: () => {},
+      createCity: () => {},
     };
   return value;
 };
