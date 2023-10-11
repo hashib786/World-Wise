@@ -35,7 +35,7 @@ const AuthContext = createContext<authI>({
 });
 
 const FAKE_USER: UserI = {
-  name: "Jack",
+  name: "Hashib",
   email: "jack@example.com",
   password: "qwerty",
   avatar: "https://i.pravatar.cc/100?u=zz",
