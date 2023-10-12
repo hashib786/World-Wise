@@ -1,6 +1,7 @@
 import {
   ReactNode,
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -65,18 +66,22 @@ const CitiesProvider = ({ children }: { children: ReactNode }) => {
     })();
   }, []);
 
-  async function getCity(id: number) {
-    try {
-      setIsLoading(true);
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      setCurrentCity(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const getCity = useCallback(
+    async function getCity(id: number) {
+      if (id === currentCity?.id) return;
+      try {
+        setIsLoading(true);
+        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const data = await res.json();
+        setCurrentCity(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentCity?.id]
+  );
 
   async function createCity(newCity: CityI) {
     try {
